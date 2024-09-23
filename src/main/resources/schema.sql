@@ -1,0 +1,7 @@
+CREATE TABLE applications (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    volunteer_id BIGINT NOT NULL,
+    opportunity_id BIGINT NOT NULL,
+    status VARCHAR(20) NOT NULL CHECK (status IN ('PENDING', 'ACCEPTED', 'REJECTED')),
+    applied_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
