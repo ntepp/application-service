@@ -25,7 +25,6 @@ public class CandidatureServiceImpl implements CandidatureService {
     @Override
     public Candidatures apply(Candidatures candidate) {
         try {
-
             Candidatures candidatures = candidatureRepository.save(candidate);
             return candidatures;
         } catch (Exception e) {

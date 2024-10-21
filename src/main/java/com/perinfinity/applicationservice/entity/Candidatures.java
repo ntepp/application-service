@@ -1,6 +1,6 @@
 package com.perinfinity.applicationservice.entity;
 
-import com.perinfinity.applicationservice.dto.ApplicationStatus;
+import com.perinfinity.applicationservice.dto.CandidatureStatus;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -14,7 +14,7 @@ public class Candidatures {
     private Long id;
     private String volunteeringId;
     private String opportunityId;
-    private ApplicationStatus status;
+    private CandidatureStatus status;
     private LocalDateTime appliedAt;
 
     @PrePersist

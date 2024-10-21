@@ -7,9 +7,12 @@ import io.micrometer.core.instrument.MeterRegistry;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
+
+@RestController
 @RequestMapping("/api/applications")
-@Controller
 public class CandidatureController {
     CandidatureService candidatureService;
     private final Counter applicationCounter;
@@ -23,16 +26,22 @@ public class CandidatureController {
 
 
     @GetMapping("/{id}")
-    public ResponseEntity<Candidatures> getCandidatures(@PathVariable Long id) {
-        var candidature = candidatureService.getApplications(id);
-        return candidature.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    public Candidatures getCandidatures(@PathVariable Long id) {
+        return candidatureService.getApplications(id).orElse(null);
 
     }
 
     @PostMapping
-    public ResponseEntity<String> apply(@RequestBody Candidatures candidature) {
+    public ResponseEntity<Void> apply(@RequestBody Candidatures candidature) {
         applicationCounter.increment();
-        candidatureService.apply(candidature);
-        return ResponseEntity.ok("SUCCESS");
+        Candidatures candidatures = candidatureService.apply(candidature);
+        return entityWithLocation(candidatures.getId());
+    }
+
+    private ResponseEntity<Void> entityWithLocation(Long resourceId) {
+        //Create the URI location of the new candidate
+        URI location = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{childId}").buildAndExpand(resourceId)
+                .toUri();
+        return ResponseEntity.created(location).build();
     }
 }

@@ -1,6 +1,6 @@
 package com.perinfinity.applicationservice.dto;
 
-public enum ApplicationStatus {
+public enum CandidatureStatus {
     PENDING,
     VIEW,
     ACCEPTED,
